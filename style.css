@@ -174,7 +174,6 @@ body {
 
 .popup-quote {
     font-family : Baskerville, Georgia, serif;
-    font-style : italic;
     position: flex;
     color: var(--accentColor);
     padding: 20px;
