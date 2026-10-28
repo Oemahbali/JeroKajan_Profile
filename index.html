@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jero Kajanan</title>
-    <!-- Favicon -->
-    <link rel="icon" href="/photo/logo.png" type="image/x-icon" />
-    <!-- Font Awesome icons -->
+    <meta name="description" content="Jero Kajanan — menu, lokasi, Instagram, dan TikTok.">
+    <link rel="icon" href="/photo/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- AOS CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <!-- Core theme CSS -->
     <link rel="stylesheet" href="style.css">
-    <!-- Vercel Speed Insights -->
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
@@ -20,73 +18,75 @@
   </head>
 
   <body>
-    <!-- Parallax Pixel Background Animation -->
-    <section class="animated-background">
-      <div id="stars1"></div>
-      <div id="stars2"></div>
-      <div id="stars3"></div>
-    </section>
-    <!-- End of Parallax Pixel Background Animation -->
-    <div data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000">
-      <a id="profilePicture" href="#popup">
-        <img src="/photo/logo.png" alt="Profile Picture">
-      </a>
+    <div class="atmosphere" aria-hidden="true">
+      <span class="glow glow-a"></span>
+      <span class="glow glow-b"></span>
+      <span class="glow glow-c"></span>
+      <span class="sparkle"></span>
     </div>
+
+    <main class="page">
+      <section class="card">
+        <a id="profilePicture" href="#popup" aria-label="Lihat foto profil">
+          <img src="/photo/logo.png" alt="Logo Jero Kajanan">
+        </a>
+
+        <p class="eyebrow">Kuliner rumahan</p>
+        <h1 id="userName">Jero Kajanan</h1>
+        <p class="tagline">Camilan hangat, rasa yang bikin kangen pulang.</p>
+
+        <nav id="links" aria-label="Tautan Jero Kajanan">
+          <a class="link" href="https://www.instagram.com/jerokajanan/" target="_blank" rel="noopener noreferrer">
+            <span class="link-icon instagram"><i class="fab fa-instagram"></i></span>
+            <span class="link-text">
+              <strong>Instagram</strong>
+              <small>@jerokajanan</small>
+            </span>
+            <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
+          </a>
+
+          <a class="link" href="https://drive.google.com/file/d/1havxY8twoDxbfJiVEx-_aBONhCjtXTSX/view?usp=sharing" target="_blank" rel="noopener noreferrer">
+            <span class="link-icon menu"><i class="fas fa-utensils"></i></span>
+            <span class="link-text">
+              <strong>Menu Makanan &amp; Minuman</strong>
+              <small>Lihat daftar lengkap</small>
+            </span>
+            <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
+          </a>
+
+          <a class="link" href="https://maps.app.goo.gl/PhsrNy9MDBtrQt4RA" target="_blank" rel="noopener noreferrer">
+            <span class="link-icon map"><i class="fas fa-location-dot"></i></span>
+            <span class="link-text">
+              <strong>Lokasi</strong>
+              <small>Buka di Google Maps</small>
+            </span>
+            <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
+          </a>
+
+          <a class="link" href="https://www.tiktok.com/@jerokajanan" target="_blank" rel="noopener noreferrer">
+            <span class="link-icon tiktok"><i class="fa-brands fa-tiktok"></i></span>
+            <span class="link-text">
+              <strong>TikTok</strong>
+              <small>@jerokajanan</small>
+            </span>
+            <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
+          </a>
+        </nav>
+      </section>
+
+      <p id="hashtag">#MadeWith❤</p>
+    </main>
 
     <div class="overlay" id="popup">
       <div class="popup">
         <div class="popup-photo">
-          <a href="/photo/logo.png" target="_blank">
-            <img src="/photo/logo.png" alt="Profile Picture">
+          <a href="/photo/logo.png" target="_blank" rel="noopener noreferrer">
+            <img src="/photo/logo.png" alt="Logo Jero Kajanan">
           </a>
         </div>
-        <div class="popup-quote">
-          😋
-        </div>
-        <a class="popup-close" onclick="history.back()">&times;</a>
+        <p class="popup-quote">Selamat datang di Jero Kajanan 😋</p>
+        <a class="popup-close" href="#" aria-label="Tutup">&times;</a>
       </div>
     </div>
-
-    <div id="userName">
-      Jero Kajanan
-    </div>
-
-    <div id="links">
-      <div data-aos="fade-up" data-aos-duration="3000">
-        <a class="link" href="https://www.instagram.com/jerokajanan/" target="_blank">
-          <i class="fab fa-instagram">&nbsp;</i>Instagram
-        </a>
-      </div>
-      <div data-aos="fade-up" data-aos-duration="3000">
-        <a class="link" href="https://drive.google.com/file/d/1havxY8twoDxbfJiVEx-_aBONhCjtXTSX/view?usp=sharing" target="_blank">
-          <i class="fas fa-utensils">&nbsp;</i>Menu Makanan & Minuman
-        </a>
-      </div>
-      <div data-aos="fade-up" data-aos-duration="3000">
-        <a class="link" href="https://maps.app.goo.gl/PhsrNy9MDBtrQt4RA" target="_blank">
-          <i class="fas fa-map">&nbsp;</i>Map
-        </a>
-      </div>
-      <div data-aos="fade-up" data-aos-duration="3000">
-        <a class="link" href="https://www.tiktok.com/@jerokajanan" target="_blank">
-          <i class="fa-brands fa-tiktok">&nbsp;</i>TikTok
-        </a>
-      </div>
-    </div>
-
-    <div data-aos="fade-up" data-aos-duration="3000">
-      <div id="hashtag">
-        #MadeWith❤
-      </div>
-    </div>
-    
-    <!-- <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script> -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-      AOS.init();
-    </script>
   </body>
 </html>
