@@ -1,92 +1,119 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jero Kajanan</title>
-    <meta name="description" content="Jero Kajanan — menu, lokasi, Instagram, dan TikTok.">
-    <link rel="icon" href="/photo/logo.png" type="image/png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-  </head>
 
-  <body>
-    <div class="atmosphere" aria-hidden="true">
-      <span class="glow glow-a"></span>
-      <span class="glow glow-b"></span>
-      <span class="glow glow-c"></span>
-      <span class="sparkle"></span>
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jero Kajanan</title>
+  <meta name="description" content="Jero Kajanan — menu, lokasi, Instagram, dan TikTok.">
+  <link rel="icon" href="/photo/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Tailwind CSS CDN & Custom Configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'jk-deep': '#140c08',
+            'jk-mid': '#2a160f',
+            'jk-card': '#fff6ea',
+            'jk-gold': '#b45309',
+            'jk-gold-soft': '#e8b86d',
+            'jk-muted': '#7a5b45',
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
 
-    <main class="page">
-      <section class="card">
-        <a id="profilePicture" href="#popup" aria-label="Lihat foto profil">
-          <img src="/photo/logo.png" alt="Logo Jero Kajanan">
+<body>
+  <div class="atmosphere" aria-hidden="true">
+    <span class="glow glow-a"></span>
+    <span class="glow glow-b"></span>
+    <span class="glow glow-c"></span>
+    <span class="sparkle"></span>
+  </div>
+
+  <main class="page">
+    <section class="card">
+      <a id="profilePicture" href="#popup" aria-label="Lihat foto profil">
+        <img src="/photo/logo.png" alt="Logo Jero Kajanan">
+      </a>
+
+      <p class="eyebrow">Kuliner rumahan</p>
+      <h1 id="userName">Jero Kajanan</h1>
+      <p class="tagline">Camilan hangat, rasa yang bikin kangen pulang.</p>
+
+      <nav id="links" aria-label="Tautan Jero Kajanan">
+        <a class="link" href="https://www.instagram.com/jerokajanan/" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon instagram"><i class="fab fa-instagram"></i></span>
+          <span class="link-text">
+            <strong>Instagram</strong>
+            <small>@jerokajanan</small>
+          </span>
+          <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
         </a>
 
-        <p class="eyebrow">Kuliner rumahan</p>
-        <h1 id="userName">Jero Kajanan</h1>
-        <p class="tagline">Camilan hangat, rasa yang bikin kangen pulang.</p>
+        <a class="link" href="https://drive.google.com/file/d/1havxY8twoDxbfJiVEx-_aBONhCjtXTSX/view?usp=sharing"
+          target="_blank" rel="noopener noreferrer">
+          <span class="link-icon menu"><i class="fas fa-utensils"></i></span>
+          <span class="link-text">
+            <strong>Menu Makanan &amp; Minuman</strong>
+            <small>Lihat daftar lengkap</small>
+          </span>
+          <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
+        </a>
 
-        <nav id="links" aria-label="Tautan Jero Kajanan">
-          <a class="link" href="https://www.instagram.com/jerokajanan/" target="_blank" rel="noopener noreferrer">
-            <span class="link-icon instagram"><i class="fab fa-instagram"></i></span>
-            <span class="link-text">
-              <strong>Instagram</strong>
-              <small>@jerokajanan</small>
-            </span>
-            <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
-          </a>
+        <a class="link" href="https://maps.app.goo.gl/PhsrNy9MDBtrQt4RA" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon map"><i class="fas fa-location-dot"></i></span>
+          <span class="link-text">
+            <strong>Lokasi</strong>
+            <small>Buka di Google Maps</small>
+          </span>
+          <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
+        </a>
 
-          <a class="link" href="https://drive.google.com/file/d/1havxY8twoDxbfJiVEx-_aBONhCjtXTSX/view?usp=sharing" target="_blank" rel="noopener noreferrer">
-            <span class="link-icon menu"><i class="fas fa-utensils"></i></span>
-            <span class="link-text">
-              <strong>Menu Makanan &amp; Minuman</strong>
-              <small>Lihat daftar lengkap</small>
-            </span>
-            <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
-          </a>
+        <a class="link" href="https://www.tiktok.com/@jerokajanan" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon tiktok"><i class="fa-brands fa-tiktok"></i></span>
+          <span class="link-text">
+            <strong>TikTok</strong>
+            <small>@jerokajanan</small>
+          </span>
+          <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
+        </a>
+      </nav>
+    </section>
 
-          <a class="link" href="https://maps.app.goo.gl/PhsrNy9MDBtrQt4RA" target="_blank" rel="noopener noreferrer">
-            <span class="link-icon map"><i class="fas fa-location-dot"></i></span>
-            <span class="link-text">
-              <strong>Lokasi</strong>
-              <small>Buka di Google Maps</small>
-            </span>
-            <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
-          </a>
+    <p id="hashtag">#MadeWith❤</p>
+  </main>
 
-          <a class="link" href="https://www.tiktok.com/@jerokajanan" target="_blank" rel="noopener noreferrer">
-            <span class="link-icon tiktok"><i class="fa-brands fa-tiktok"></i></span>
-            <span class="link-text">
-              <strong>TikTok</strong>
-              <small>@jerokajanan</small>
-            </span>
-            <i class="fas fa-arrow-up-right-from-square link-arrow"></i>
-          </a>
-        </nav>
-      </section>
-
-      <p id="hashtag">#MadeWith❤</p>
-    </main>
-
-    <div class="overlay" id="popup">
-      <div class="popup">
-        <div class="popup-photo">
-          <a href="/photo/logo.png" target="_blank" rel="noopener noreferrer">
-            <img src="/photo/logo.png" alt="Logo Jero Kajanan">
-          </a>
-        </div>
-        <p class="popup-quote">Selamat datang di Jero Kajanan 😋</p>
-        <a class="popup-close" href="#" aria-label="Tutup">&times;</a>
+  <div class="overlay" id="popup">
+    <div class="popup">
+      <div class="popup-photo">
+        <a href="/photo/logo.png" target="_blank" rel="noopener noreferrer">
+          <img src="/photo/logo.png" alt="Logo Jero Kajanan">
+        </a>
       </div>
+      <p class="popup-quote">Selamat datang di Jero Kajanan 😋</p>
+      <a class="popup-close" href="#" aria-label="Tutup">&times;</a>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
