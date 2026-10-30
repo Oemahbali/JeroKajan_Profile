@@ -1,22 +1,53 @@
-# Jero Kajanan Profile
+# Jero Kajanan Profile (Astro + Framer Motion)
 
-Halaman profil & tautan resmi Jero Kajanan.
+Halaman profil & tautan resmi Jero Kajanan yang telah dimigrasi ke **Astro**, **React**, dan **Framer Motion**.
 
-## Styling & Tailwind CSS
+## ✨ Fitur & Animasi
 
-Project ini menggunakan **Tailwind CSS (Play CDN)** berdampingan dengan `style.css`.
-Tidak memerlukan instalasi `npm` atau build step, cukup buka `index.html` langsung di browser atau deploy langsung ke Vercel / GitHub Pages.
+- **Astro v5**: Framework modern, performa tinggi, dan static site generation.
+- **Framer Motion**:
+  - Animasi pembuka (*entrance*) saat website dibuka:
+    - **Icon Lokasi (Map)**: Efek pin drop bounce yang menarik saat halaman dimuat + radar wave pulse berkala.
+    - **Icon TikTok**: Efek irama ketukan (*music beat & shake*) energik saat halaman dibuka.
+    - **Icon Instagram**: Efek putaran kamera (*smooth pop & spin*) saat dibuka.
+    - **Icon Menu**: Animasi kemiringan garpu & sendok (*tilt & clink*).
+    - **Profile Picture**: Spring pop-in dengan hover scale interaktif.
+    - **Stagger Links**: Tautan muncul berurutan dengan transisi halus.
+    - **Interaksi Hover & Tap**: Setiap tombol link dan icon memiliki animasi mikro saat disentuh / kursor diarahkan.
+    - **Popup Foto Profil**: Modal interaktif dengan `AnimatePresence` untuk transisi buka/tutup yang mulus.
+- **Tailwind CSS & Custom Styling**: Palet warna hangat khas Jero Kajanan (`jk-deep`, `jk-gold`, dll.) dan tipografi Playfair Display & Outfit.
 
-### Custom Theme Tailwind yang Tersedia:
-- **Font Family**:
-  - `font-sans`: Outfit
-  - `font-serif`: Playfair Display
-- **Warna Brand**:
-  - `bg-jk-deep` / `text-jk-deep` (`#140c08`)
-  - `bg-jk-mid` / `text-jk-mid` (`#2a160f`)
-  - `bg-jk-card` / `text-jk-card` (`#fff6ea`)
-  - `bg-jk-gold` / `text-jk-gold` (`#b45309`)
-  - `bg-jk-gold-soft` / `text-jk-gold-soft` (`#e8b86d`)
-  - `bg-jk-muted` / `text-jk-muted` (`#7a5b45`)
+## 🚀 Perintah yang Tersedia
 
-Anda bisa langsung menggunakan semua utility class bawaan Tailwind (misal: `flex`, `hidden`, `p-4`, `rounded-xl`, `hover:scale-105`, dll.) pada elemen manapun di `index.html`.
+Jalankan perintah berikut di terminal:
+
+```bash
+# Menjalankan server pengembangan lokal (http://localhost:4321)
+npm run dev
+
+# Membangun project untuk produksi (ke folder dist/)
+npm run build
+
+# Meninjau hasil build secara lokal
+npm run preview
+```
+
+## 📁 Struktur Project
+
+```text
+├── public/
+│   └── photo/
+│       └── logo.png
+├── src/
+│   ├── components/
+│   │   └── ProfileCard.tsx    # Komponen React & animasi Framer Motion
+│   ├── layouts/
+│   │   └── Layout.astro       # Layout utama & metadata HTML
+│   ├── pages/
+│   │   └── index.astro        # Halaman utama Astro
+│   └── styles/
+│       └── style.css          # Styling global & efek atmosphere
+├── astro.config.mjs
+├── tailwind.config.mjs
+└── package.json
+```

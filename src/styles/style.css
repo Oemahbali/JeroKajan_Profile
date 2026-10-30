@@ -1,0 +1,324 @@
+:root {
+  --bg-deep: #140c08;
+  --bg-mid: #2a160f;
+  --card: #fff6ea;
+  --ink: #2a160f;
+  --muted: #7a5b45;
+  --gold: #b45309;
+  --gold-soft: #e8b86d;
+  --stroke: rgba(122, 62, 27, 0.14);
+  --shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
+  --radius: 28px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Outfit", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 700px at 50% -10%, #5a2d18 0%, transparent 55%),
+    radial-gradient(800px 500px at 100% 100%, #3a1c12 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg-mid) 0%, var(--bg-deep) 100%);
+  overflow-x: hidden;
+}
+
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.45;
+}
+
+.glow-a {
+  width: 280px;
+  height: 280px;
+  background: #c45c26;
+  top: -80px;
+  left: 10%;
+}
+
+.glow-b {
+  width: 340px;
+  height: 340px;
+  background: #e8b86d;
+  right: -80px;
+  top: 35%;
+  opacity: 0.22;
+}
+
+.glow-c {
+  width: 260px;
+  height: 260px;
+  background: #7a2e14;
+  bottom: -40px;
+  left: 20%;
+}
+
+.sparkle {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 18%, rgba(255, 236, 210, 0.7) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 78% 12%, rgba(255, 236, 210, 0.55) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 88% 62%, rgba(255, 236, 210, 0.4) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 22% 72%, rgba(255, 236, 210, 0.5) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 46% 40%, rgba(255, 236, 210, 0.35) 50%, transparent 51%);
+  animation: twinkle 6s ease-in-out infinite;
+}
+
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px 28px;
+}
+
+.card {
+  width: min(420px, 100%);
+  padding: 36px 22px 24px;
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+#profilePicture {
+  display: inline-flex;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--gold), #c45c26 55%, var(--gold-soft));
+  box-shadow: 0 0 0 6px rgba(232, 184, 109, 0.12), 0 12px 30px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+#profilePicture img {
+  display: block;
+  width: 108px;
+  height: 108px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+#userName {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.9rem, 5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.tagline {
+  margin: 10px auto 26px;
+  max-width: 28ch;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+#links {
+  display: grid;
+  gap: 12px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  color: var(--ink);
+  text-decoration: none;
+  background: #fff;
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(90, 40, 16, 0.06);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.link:hover {
+  border-color: rgba(180, 83, 9, 0.35);
+  box-shadow: 0 10px 22px rgba(90, 40, 16, 0.12);
+}
+
+.link-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.link-icon.instagram { background: #fde7ef; color: #c2185b; }
+.link-icon.menu { background: #fde8c8; color: #b45309; }
+.link-icon.map { background: #d7f5e8; color: #047857; }
+.link-icon.tiktok { background: #d9f4f6; color: #0f766e; }
+
+.link-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  flex: 1;
+  min-width: 0;
+}
+
+.link-text strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.link-text small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.link-arrow {
+  color: var(--gold);
+  font-size: 0.78rem;
+  opacity: 0.75;
+  transition: transform 0.2s ease;
+}
+
+.link:hover .link-arrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+#hashtag {
+  margin: 22px 0 0;
+  color: var(--gold-soft);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+/* Modal styles handled cleanly by React + Framer Motion */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 4, 2, 0.76);
+  backdrop-filter: blur(6px);
+  padding: 16px;
+}
+
+.popup {
+  position: relative;
+  width: min(380px, calc(100% - 20px));
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.popup-photo {
+  display: flex;
+  justify-content: center;
+  padding: 28px 28px 0;
+}
+
+.popup-photo a {
+  display: flex;
+  justify-content: center;
+}
+
+.popup-photo img {
+  display: block;
+  width: 168px;
+  height: 168px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #edc48a;
+  background: #fff;
+}
+
+.popup-quote {
+  margin: 0;
+  padding: 18px 20px 22px;
+  text-align: center;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 246, 234, 0.92);
+  color: var(--ink);
+  border: none;
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.popup-close:hover {
+  background: var(--gold);
+  color: #fff6ea;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
