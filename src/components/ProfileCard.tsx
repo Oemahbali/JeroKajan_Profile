@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import SeasonalBackdrop from "./SeasonalBackdrop";
 
 interface LinkItem {
   id: string;
@@ -158,6 +159,7 @@ export default function ProfileCard() {
 
   return (
     <div className="page">
+      <SeasonalBackdrop />
       {/* Main Profile Card with Entrance Spring */}
       <motion.section
         className="card"
@@ -232,7 +234,7 @@ export default function ProfileCard() {
             return (
               <motion.a
                 key={link.id}
-                className="link group"
+                className={`link group link--${link.type}`}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
