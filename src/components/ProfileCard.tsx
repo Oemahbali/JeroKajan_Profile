@@ -182,7 +182,16 @@ export default function ProfileCard() {
           whileHover={{ scale: 1.06, rotate: 2 }}
           whileTap={{ scale: 0.95 }}
         >
-          <img src="/photo/logo.png" alt="Logo Jero Kajanan" />
+          <picture>
+            <source srcSet="/photo/logo-108w.webp 1x, /photo/logo-216w.webp 2x" type="image/webp" />
+            <source srcSet="/photo/logo.avif 1x" type="image/avif" />
+            <img 
+              src="/photo/logo-optimized.png" 
+              alt="Logo Jero Kajanan"
+              loading="eager"
+              decoding="sync"
+            />
+          </picture>
         </motion.button>
 
         {/* Text Header */}
@@ -351,13 +360,17 @@ export default function ProfileCard() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="popup-photo">
-                <a href="/photo/logo.png" target="_blank" rel="noopener noreferrer">
-                  <motion.img
-                    src="/photo/logo.png"
-                    alt="Logo Jero Kajanan"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
-                  />
+                <a href="/photo/logo-optimized.png" target="_blank" rel="noopener noreferrer">
+                  <picture>
+                    <source srcSet="/photo/logo-168w.webp 1x, /photo/logo-336w.webp 2x" type="image/webp" />
+                    <source srcSet="/photo/logo.avif 1x" type="image/avif" />
+                    <motion.img
+                      src="/photo/logo-optimized.png"
+                      alt="Logo Jero Kajanan"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.2 }}
+                    />
+                  </picture>
                 </a>
               </div>
               <p className="popup-quote">Selamat datang di Jero Kajanan 😋</p>
