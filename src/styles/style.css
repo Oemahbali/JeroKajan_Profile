@@ -1,3 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-jk-deep: #140c08;
+  --color-jk-mid: #2a160f;
+  --color-jk-card: #fff6ea;
+  --color-jk-gold: #b45309;
+  --color-jk-gold-soft: #e8b86d;
+  --color-jk-muted: #7a5b45;
+  --font-sans: "Outfit", sans-serif;
+  --font-serif: "Playfair Display", serif;
+}
+
 :root {
   --bg-deep: #140c08;
   --bg-mid: #2a160f;
@@ -51,6 +64,7 @@ body {
   background: #c45c26;
   top: -80px;
   left: 10%;
+  animation: driftA 14s ease-in-out infinite, pulseA 8s ease-in-out infinite;
 }
 
 .glow-b {
@@ -60,6 +74,7 @@ body {
   right: -80px;
   top: 35%;
   opacity: 0.22;
+  animation: driftB 18s ease-in-out infinite, pulseB 10s ease-in-out infinite;
 }
 
 .glow-c {
@@ -68,6 +83,7 @@ body {
   background: #7a2e14;
   bottom: -40px;
   left: 20%;
+  animation: driftC 16s ease-in-out infinite, pulseC 9s ease-in-out infinite;
 }
 
 .sparkle {
@@ -79,7 +95,7 @@ body {
     radial-gradient(1.5px 1.5px at 88% 62%, rgba(255, 236, 210, 0.4) 50%, transparent 51%),
     radial-gradient(1.5px 1.5px at 22% 72%, rgba(255, 236, 210, 0.5) 50%, transparent 51%),
     radial-gradient(1.5px 1.5px at 46% 40%, rgba(255, 236, 210, 0.35) 50%, transparent 51%);
-  animation: twinkle 6s ease-in-out infinite;
+  animation: twinkle 6s ease-in-out infinite, sparkleShift 20s ease-in-out infinite;
 }
 
 .page {
@@ -178,18 +194,44 @@ body {
 .link-icon {
   width: 42px;
   height: 42px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 12px;
   font-size: 1.05rem;
   flex-shrink: 0;
   position: relative;
 }
 
-.link-icon.instagram { background: #fde7ef; color: #c2185b; }
-.link-icon.menu { background: #fde8c8; color: #b45309; }
-.link-icon.map { background: #d7f5e8; color: #047857; }
-.link-icon.tiktok { background: #d9f4f6; color: #0f766e; }
+.link-icon i,
+.link-icon svg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  text-align: center;
+}
+
+.link-icon.instagram {
+  background: #fde7ef;
+  color: #c2185b;
+}
+
+.link-icon.menu {
+  background: #fde8c8;
+  color: #b45309;
+}
+
+.link-icon.map {
+  background: #d7f5e8;
+  color: #047857;
+}
+
+.link-icon.tiktok {
+  background: #d9f4f6;
+  color: #0f766e;
+}
 
 .link-text {
   display: flex;
@@ -310,11 +352,141 @@ body {
 }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0.55; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Glow-A: slow diagonal drift (top-left area) */
+@keyframes driftA {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(30px, 20px);
+  }
+
+  50% {
+    transform: translate(-15px, 35px);
+  }
+
+  75% {
+    transform: translate(20px, -10px);
+  }
+}
+
+@keyframes pulseA {
+
+  0%,
+  100% {
+    opacity: 0.45;
+    filter: blur(60px);
+  }
+
+  50% {
+    opacity: 0.55;
+    filter: blur(70px);
+  }
+}
+
+/* Glow-B: slow circular drift (right side) */
+@keyframes driftB {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-25px, 30px);
+  }
+
+  50% {
+    transform: translate(-40px, -15px);
+  }
+
+  75% {
+    transform: translate(-10px, -30px);
+  }
+}
+
+@keyframes pulseB {
+
+  0%,
+  100% {
+    opacity: 0.22;
+    filter: blur(60px);
+  }
+
+  50% {
+    opacity: 0.32;
+    filter: blur(75px);
+  }
+}
+
+/* Glow-C: slow drift (bottom-left area) */
+@keyframes driftC {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(35px, -20px);
+  }
+
+  50% {
+    transform: translate(15px, -35px);
+  }
+
+  75% {
+    transform: translate(-20px, -15px);
+  }
+}
+
+@keyframes pulseC {
+
+  0%,
+  100% {
+    opacity: 0.45;
+    filter: blur(60px);
+  }
+
+  50% {
+    opacity: 0.55;
+    filter: blur(68px);
+  }
+}
+
+/* Sparkle layer subtle pan */
+@keyframes sparkleShift {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(8px, -6px) scale(1.02);
+  }
+
+  66% {
+    transform: translate(-6px, 8px) scale(0.98);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {

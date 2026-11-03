@@ -18,9 +18,10 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@astrojs/tailwind": "^6.0.2",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
-    "tailwindcss": "^3.4.19"
+    "@tailwindcss/vite": "^4.3.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.4"
   }
 }
