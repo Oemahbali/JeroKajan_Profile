@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import SeasonalBackdrop from "./SeasonalBackdrop";
 
 interface LinkItem {
@@ -7,7 +7,6 @@ interface LinkItem {
   title: string;
   subtitle: string;
   url: string;
-  iconClass: string;
   type: "instagram" | "menu" | "map" | "tiktok";
 }
 
@@ -17,7 +16,6 @@ const links: LinkItem[] = [
     title: "Instagram",
     subtitle: "@jerokajanan",
     url: "https://www.instagram.com/jerokajanan/",
-    iconClass: "fab fa-instagram",
     type: "instagram",
   },
   {
@@ -25,7 +23,6 @@ const links: LinkItem[] = [
     title: "Menu Makanan & Minuman",
     subtitle: "Lihat daftar lengkap",
     url: "https://drive.google.com/file/d/1havxY8twoDxbfJiVEx-_aBONhCjtXTSX/view?usp=sharing",
-    iconClass: "fas fa-utensils",
     type: "menu",
   },
   {
@@ -33,7 +30,6 @@ const links: LinkItem[] = [
     title: "Lokasi",
     subtitle: "Buka di Google Maps",
     url: "https://maps.app.goo.gl/PhsrNy9MDBtrQt4RA",
-    iconClass: "fas fa-location-dot",
     type: "map",
   },
   {
@@ -41,193 +37,218 @@ const links: LinkItem[] = [
     title: "TikTok",
     subtitle: "@jerokajanan",
     url: "https://www.tiktok.com/@jerokajanan",
-    iconClass: "fa-brands fa-tiktok",
     type: "tiktok",
   },
 ];
 
-// Specific opening animations for each icon type
+// Inline glyphs replace the icon font, so the page ships no third party CSS.
+function LinkGlyph({ type }: { type: LinkItem["type"] }) {
+  switch (type) {
+    case "instagram":
+      return (
+        <>
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17" cy="7" r="0.9" fill="currentColor" stroke="none" />
+        </>
+      );
+    case "menu":
+      return (
+        <>
+          <path d="M3 2v6.5c0 1.4 1.1 2.5 2.5 2.5h3c1.4 0 2.5-1.1 2.5-2.5V2" />
+          <path d="M7 2v20" />
+          <ellipse cx="17.5" cy="7" rx="2.8" ry="4.6" />
+          <path d="M17.5 11.6V22" />
+        </>
+      );
+    case "map":
+      return (
+        <>
+          <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 0 1 16 0Z" />
+          <circle cx="12" cy="10" r="3" />
+        </>
+      );
+    case "tiktok":
+      return (
+        <path
+          fill="currentColor"
+          stroke="none"
+          d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"
+        />
+      );
+  }
+}
+
+// Finite opening gesture per link type. Each one settles under a second.
 const getIconOpeningAnimation = (type: LinkItem["type"], delay: number) => {
   switch (type) {
     case "map":
-      // Map Pin Drop bounce animation on page load
       return {
-        initial: { scale: 0, y: -28, opacity: 0, rotate: -15 },
-        animate: {
-          scale: [0, 1.25, 0.9, 1.1, 1],
-          y: [-28, 0, -8, 0, -3, 0],
-          opacity: 1,
-          rotate: [-15, 8, -5, 2, 0],
-        },
-        transition: {
-          delay: delay + 0.15,
-          duration: 0.95,
-          ease: "easeOut",
-        },
+        initial: { scale: 0, y: -18, opacity: 0 },
+        animate: { scale: [0, 1.12, 0.97, 1], y: [-18, 0, -4, 0], opacity: 1 },
+        transition: { delay: delay + 0.1, duration: 0.7, ease: "easeOut" },
       };
     case "tiktok":
-      // TikTok rhythmic beat & shake animation on page load
       return {
-        initial: { scale: 0, rotate: -25, opacity: 0 },
-        animate: {
-          scale: [0, 1.35, 0.85, 1.2, 0.95, 1],
-          rotate: [-25, 15, -12, 8, -4, 0],
-          opacity: 1,
-        },
-        transition: {
-          delay: delay + 0.15,
-          duration: 0.9,
-          ease: "easeOut",
-        },
+        initial: { scale: 0, rotate: -18, opacity: 0 },
+        animate: { scale: [0, 1.15, 0.94, 1], rotate: [-18, 8, -4, 0], opacity: 1 },
+        transition: { delay: delay + 0.1, duration: 0.65, ease: "easeOut" },
       };
     case "instagram":
-      // Instagram camera pop & spin animation on page load
       return {
-        initial: { scale: 0, rotate: -50, opacity: 0 },
-        animate: {
-          scale: [0, 1.25, 0.9, 1.08, 1],
-          rotate: [-50, 15, -8, 0],
-          opacity: 1,
-        },
-        transition: {
-          delay: delay + 0.1,
-          duration: 0.85,
-          ease: "easeOut",
-        },
+        initial: { scale: 0, rotate: -35, opacity: 0 },
+        animate: { scale: [0, 1.12, 0.96, 1], rotate: [-35, 10, -4, 0], opacity: 1 },
+        transition: { delay: delay + 0.08, duration: 0.6, ease: "easeOut" },
       };
     case "menu":
-      // Menu utensils tilt & clink animation on page load
       return {
-        initial: { scale: 0, rotate: 35, opacity: 0 },
-        animate: {
-          scale: [0, 1.25, 0.9, 1.05, 1],
-          rotate: [35, -20, 10, -5, 0],
-          opacity: 1,
-        },
-        transition: {
-          delay: delay + 0.12,
-          duration: 0.85,
-          ease: "easeOut",
-        },
+        initial: { scale: 0, rotate: 25, opacity: 0 },
+        animate: { scale: [0, 1.12, 0.96, 1], rotate: [25, -10, 4, 0], opacity: 1 },
+        transition: { delay: delay + 0.1, duration: 0.6, ease: "easeOut" },
       };
   }
 };
 
-// Micro-interaction hover animation for each icon
+// Single short response on hover, no repeating loop.
 const getIconHoverAnimation = (type: LinkItem["type"]) => {
   switch (type) {
-    case "map":
-      return {
-        y: [-2, -6, 0],
-        scale: 1.15,
-        transition: { duration: 0.35, repeat: Infinity, repeatType: "reverse" as const },
-      };
-    case "tiktok":
-      return {
-        rotate: [-8, 8, -6, 6, 0],
-        scale: 1.15,
-        transition: { duration: 0.35 },
-      };
     case "instagram":
-      return {
-        rotate: 360,
-        scale: 1.15,
-        transition: { duration: 0.5, ease: "easeInOut" },
-      };
+      return { scale: 1.1, rotate: 8, transition: { duration: 0.25 } };
+    case "tiktok":
+      return { scale: 1.12, rotate: -6, transition: { duration: 0.25 } };
     case "menu":
-      return {
-        rotate: [-15, 15, -8, 8, 0],
-        scale: 1.15,
-        transition: { duration: 0.4 },
-      };
+      return { scale: 1.1, rotate: -6, transition: { duration: 0.25 } };
+    case "map":
+      return { scale: 1.12, y: -3, transition: { duration: 0.25 } };
   }
 };
 
 export default function ProfileCard() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
-  // Close popup with Escape key
+  const closePopup = useCallback(() => setIsPopupOpen(false), []);
+
+  // Dialog behavior: initial focus, focus trap, Escape, scroll lock, focus return.
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setIsPopupOpen(false);
+    if (!isPopupOpen) return;
+
+    const opener = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closePopup();
+        return;
+      }
+      if (event.key !== "Tab" || !panelRef.current) return;
+
+      const focusable = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+      if (focusable.length === 0) {
+        event.preventDefault();
+        panelRef.current.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && (active === first || active === panelRef.current)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      opener?.focus();
+    };
+  }, [isPopupOpen, closePopup]);
+
+  const fadeIn = (delay: number, distance = 12) =>
+    reduceMotion
+      ? { initial: false as const, animate: { opacity: 1, y: 0 } }
+      : {
+          initial: { opacity: 0, y: distance },
+          animate: { opacity: 1, y: 0 },
+          transition: { delay, duration: 0.4, ease: [0.16, 1, 0.3, 1] as const },
+        };
 
   return (
     <div className="page">
       <SeasonalBackdrop />
-      {/* Main Profile Card with Entrance Spring */}
+      {/* Main Profile Card */}
       <motion.section
         className="card"
-        initial={{ opacity: 0, y: 30, scale: 0.96 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+        aria-hidden={isPopupOpen || undefined}
+        inert={isPopupOpen || undefined}
+        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={reduceMotion ? { duration: 0 } : { duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Profile Picture with Pulse & Hover Spring */}
+        {/* Profile Picture */}
         <motion.button
           id="profilePicture"
           type="button"
           onClick={() => setIsPopupOpen(true)}
-          aria-label="Lihat foto profil"
-          initial={{ scale: 0, opacity: 0 }}
+          aria-label="Lihat logo Jero Kajanan"
+          initial={reduceMotion ? false : { scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{
-            type: "spring",
-            stiffness: 260,
-            damping: 20,
-            delay: 0.1,
-          }}
-          whileHover={{ scale: 1.06, rotate: 2 }}
-          whileTap={{ scale: 0.95 }}
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { type: "spring", stiffness: 260, damping: 20, delay: 0.1 }
+          }
+          whileHover={reduceMotion ? undefined : { scale: 1.04 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.97 }}
         >
           <picture>
             <source srcSet="/photo/logo-108w.webp 1x, /photo/logo-216w.webp 2x" type="image/webp" />
             <source srcSet="/photo/logo.avif 1x" type="image/avif" />
-            <img 
-              src="/photo/logo-optimized.png" 
+            <img
+              src="/photo/logo-optimized.png"
               alt="Logo Jero Kajanan"
+              width={108}
+              height={108}
               loading="eager"
-              decoding="sync"
+              decoding="async"
+              fetchPriority="high"
             />
           </picture>
         </motion.button>
 
         {/* Text Header */}
-        <motion.p
-          className="eyebrow"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.22, duration: 0.45 }}
-        >
+        <motion.p className="eyebrow" {...fadeIn(0.18, 8)}>
           Kuliner rumahan
         </motion.p>
 
-        <motion.h1
-          id="userName"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-        >
+        <motion.h1 id="userName" {...fadeIn(0.24)}>
           Jero Kajanan
         </motion.h1>
 
-        <motion.p
-          className="tagline"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.38, duration: 0.5 }}
-        >
+        <motion.p className="tagline" {...fadeIn(0.3, 8)}>
           rasa yang bikin kangen pulang.
         </motion.p>
 
-        {/* Navigation Links with Framer Motion Stagger */}
+        {/* Navigation Links */}
         <nav id="links" aria-label="Tautan Jero Kajanan">
           {links.map((link, index) => {
-            const cardDelay = 0.35 + index * 0.12;
+            const cardDelay = 0.3 + index * 0.08;
             const iconAnim = getIconOpeningAnimation(link.type, cardDelay);
             const iconHover = getIconHoverAnimation(link.type);
 
@@ -238,69 +259,34 @@ export default function ProfileCard() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 22 }}
+                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.55,
-                  delay: cardDelay,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={{
-                  y: -3,
-                  scale: 1.015,
-                  boxShadow: "0 12px 24px rgba(90, 40, 16, 0.14)",
-                }}
-                whileTap={{ scale: 0.98 }}
+                transition={
+                  reduceMotion
+                    ? { duration: 0 }
+                    : { duration: 0.4, delay: cardDelay, ease: [0.22, 1, 0.36, 1] }
+                }
+                whileHover={reduceMotion ? undefined : { y: -2 }}
+                whileTap={reduceMotion ? undefined : { scale: 0.99 }}
               >
-                {/* Icon Container with Opening and Hover Animations */}
+                {/* Icon Container */}
                 <span className={`link-icon ${link.type}`}>
-                  {/* Subtle radar ripple specifically for Map to make it pop even more */}
-                  {link.type === "map" && (
-                    <motion.span
-                      aria-hidden="true"
-                      className="absolute inset-0 rounded-xl bg-emerald-500/20"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{
-                        scale: [1, 1.45, 1.8],
-                        opacity: [0.6, 0.3, 0],
-                      }}
-                      transition={{
-                        delay: cardDelay + 0.6,
-                        duration: 2,
-                        repeat: Infinity,
-                        repeatDelay: 3,
-                        ease: "easeOut",
-                      }}
-                    />
-                  )}
-
-                  {/* Subtle music beat ring specifically for TikTok */}
-                  {link.type === "tiktok" && (
-                    <motion.span
-                      aria-hidden="true"
-                      className="absolute inset-0 rounded-xl bg-cyan-500/20"
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{
-                        scale: [1, 1.35, 1.6],
-                        opacity: [0.5, 0.25, 0],
-                      }}
-                      transition={{
-                        delay: cardDelay + 0.7,
-                        duration: 1.8,
-                        repeat: Infinity,
-                        repeatDelay: 3.5,
-                        ease: "easeOut",
-                      }}
-                    />
-                  )}
-
-                  <motion.i
-                    className={link.iconClass}
-                    initial={iconAnim.initial}
-                    animate={iconAnim.animate}
+                  <motion.svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    focusable="false"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.8}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    initial={reduceMotion ? false : iconAnim.initial}
+                    animate={reduceMotion ? undefined : iconAnim.animate}
                     transition={iconAnim.transition}
-                    whileHover={iconHover}
-                  />
+                    whileHover={reduceMotion ? undefined : iconHover}
+                  >
+                    <LinkGlyph type={link.type} />
+                  </motion.svg>
                 </span>
 
                 {/* Link Text */}
@@ -309,56 +295,56 @@ export default function ProfileCard() {
                   <small>{link.subtitle}</small>
                 </span>
 
-                {/* Arrow Icon with diagonal slide hover */}
-                <motion.i
-                  className="fas fa-arrow-up-right-from-square link-arrow"
-                  whileHover={{ x: 3, y: -3 }}
-                />
+                {/* External link marker */}
+                <svg
+                  className="link-arrow"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  focusable="false"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M15 3h6v6" />
+                  <path d="M10 14 21 3" />
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                </svg>
               </motion.a>
             );
           })}
         </nav>
       </motion.section>
 
-      {/* Heart Hashtag with gentle heartbeat animation */}
-      <motion.p
-        id="hashtag"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9, duration: 0.6 }}
-      >
-        #MadeWith
-        <motion.span
-          animate={{ scale: [1, 1.28, 1, 1.2, 1] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            repeatDelay: 1,
-            ease: "easeInOut",
-          }}
-          style={{ display: "inline-block", color: "#e11d48" }}
-        >
-          ❤
-        </motion.span>
+      {/* Credit line */}
+      <motion.p id="hashtag" {...fadeIn(0.7)} aria-hidden={isPopupOpen || undefined} inert={isPopupOpen || undefined}>
+        #MadeWith<span className="heart">❤</span>
       </motion.p>
 
-      {/* Interactive Profile Popup Modal with Framer Motion AnimatePresence */}
+      {/* Profile popup */}
       <AnimatePresence>
         {isPopupOpen && (
           <motion.div
             className="overlay"
-            initial={{ opacity: 0 }}
+            role="presentation"
+            initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            onClick={() => setIsPopupOpen(false)}
+            exit={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            onClick={closePopup}
           >
             <motion.div
               className="popup"
-              initial={{ scale: 0.82, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.85, opacity: 0, y: 15 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              ref={panelRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="popup-title"
+              tabIndex={-1}
+              initial={reduceMotion ? false : { scale: 0.94, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={reduceMotion ? { opacity: 1 } : { scale: 0.96, opacity: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.22, ease: [0.16, 1, 0.3, 1] }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="popup-photo">
@@ -366,20 +352,23 @@ export default function ProfileCard() {
                   <picture>
                     <source srcSet="/photo/logo-168w.webp 1x, /photo/logo-336w.webp 2x" type="image/webp" />
                     <source srcSet="/photo/logo.avif 1x" type="image/avif" />
-                    <motion.img
+                    <img
                       src="/photo/logo-optimized.png"
                       alt="Logo Jero Kajanan"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.2 }}
+                      width={168}
+                      height={168}
                     />
                   </picture>
                 </a>
               </div>
-              <p className="popup-quote">Selamat datang di Jero Kajanan 😋</p>
+              <p className="popup-quote" id="popup-title">
+                Selamat datang di Jero Kajanan 😋
+              </p>
               <button
+                ref={closeButtonRef}
                 className="popup-close"
                 type="button"
-                onClick={() => setIsPopupOpen(false)}
+                onClick={closePopup}
                 aria-label="Tutup"
               >
                 &times;
@@ -391,4 +380,3 @@ export default function ProfileCard() {
     </div>
   );
 }
-
